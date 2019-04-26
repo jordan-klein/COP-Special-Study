@@ -1,13 +1,18 @@
+Special <- read.csv("COP 2016 Special Study Data.csv", header = TRUE)
+
 library(reporttools)
 library(stargazer)
+library(tidyverse)
+library(broom)
 
+"Group" -> names(Special)[names(Special)=="Group.no.and.Batch"]
+"Household no." -> names(Special)[names(Special)=="Map.sl.no."]
+"Height (cm)" -> names(Special)[names(Special)=="Height.in.cms"]
+"Socioeconomic status score" -> names(Special)[names(Special)=="SES.value"]
+"Socioeconomic status class" -> names(Special)[names(Special)=="SES.class"]
 names(Special)[names(Special) == "Age"] <- "Age (years)"
 
-Special$`Age group` <- factor(Special$`Age group`, levels = c("Older", "Younger"), 
-                              labels = c("Older (50-60)", "Younger (20-30)"))
-Special$`Socioeconomic status class` <- factor(Special$`Socioeconomic status class`, 
-                                               levels = c("L", "M", "H"), 
-                              labels = c("Low (0-17)", "Middle (18-39)", "High (40-107)"))
+Special <- mutate(Special, 'Age group' = ifelse(Special$`Age (years)` >= 50, "Older", "Younger"))
 
 contvars <- Special[, c("Age (years)", "Height (cm)", "Socioeconomic status score")]
 
