@@ -3,7 +3,7 @@
 ## Import data
 
 library(tidyverse)
-Special <- read.csv("~/Google Drive/GIS/Important Projects/COP 2016 Special Study Data.csv", header = TRUE)
+Special <- read.csv("COP 2016 Special Study Data.csv", header = TRUE)
 View(Special)
 
 ## Data management
@@ -67,7 +67,7 @@ catstats <- function(x) {
 
 contstats(Age)
 contstats(`Height (cm)`)
-contstats(ES)
+contstats(`Socioeconomic status score`)
 catstats(`Socioeconomic status class`)
 catstats(`Age group`)
 
@@ -177,7 +177,7 @@ legend("topright", pch = 1, col = c(1, 2, 3), c("<0.6", "0.6 to <1.0", ">=1.0"),
 "Model 2 residual^2" <- `Model 2 residual`**2
 "Model 2 std residual" <- (`Model 2 residual`- mean(`Model 2 residual`))/sd(`Model 2 residual`)
 "Model 2 fitted" <- `Height~Age+ES`$fitted
-"Model 2 CPR" <- `Height~Age+ES`$coefficient[3]*ES + `Model 2 residual`
+"Model 2 CPR" <- `Height~Age+ES`$coefficient[3]*`Socioeconomic status score` + `Model 2 residual`
 "Model 2 leverage" <- hatvalues(`Height~Age+ES`)
 "Model 2 cookd" <- cooks.distance(`Height~Age+ES`)
 "Model 2 cookdlvl" <- vector()
@@ -187,9 +187,9 @@ legend("topright", pch = 1, col = c(1, 2, 3), c("<0.6", "0.6 to <1.0", ">=1.0"),
 
 # Check for linearity (components-plus residuals plot)
 
-plot(ES, `Model 2 CPR`, col = "blue", xlab = "Economic Score")
-lines(loess.smooth(ES, `Model 2 CPR`, span = 0.5), col = "red", lwd = 2)
-abline(lm(`Model 2 CPR` ~ ES))
+plot(`Socioeconomic status score`, `Model 2 CPR`, col = "blue", xlab = "Economic Score")
+lines(loess.smooth(`Socioeconomic status score`, `Model 2 CPR`, span = 0.5), col = "red", lwd = 2)
+abline(lm(`Model 2 CPR` ~ `Socioeconomic status score`))
 
 # Check normality (Q-Q plot)
 
